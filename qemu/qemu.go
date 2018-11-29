@@ -1014,7 +1014,7 @@ func (bridgeDev BridgeDevice) QemuParams(config *Config) []string {
 type VSOCKDevice struct {
 	ID string
 
-	ContextID uint32
+	ContextID uint64
 
 	// VHostFD vhost file descriptor that holds the ContextID
 	VHostFD *os.File
