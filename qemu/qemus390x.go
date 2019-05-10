@@ -45,22 +45,45 @@ const (
 // isVirtioPCI is a fake map on s390x to always avoid the "romfile"
 // option
 var isVirtioPCI = map[DeviceDriver]bool{
+        NVDIMM:              false,
+        Virtio9P:            false,
+        VirtioNetCCW:        false,
+        VirtioSerial:        false,
+        VirtioBlock:         false,
+        Console:             false,
+        VirtioSerialPort:    false,
+        VHostVSock:          false,
+        VirtioRng:           false,
+        VirtioBalloon:       false,
+        VhostUserSCSI:       false,
+        VhostUserBlk:        false,
+        Vfio:                false,
+        VirtioScsi:          false,
+        PCIBridgeDriver:     false,
+        PCIePCIBridgeDriver: false,
+}
+
+var isVirtioCCWMap = map[DeviceDriver]bool{
 	NVDIMM:              false,
-	Virtio9P:            false,
-	VirtioNetCCW:        false,
-	VirtioSerial:        false,
-	VirtioBlock:         false,
+	Virtio9P:            true,
+	VirtioNetCCW:        true,
+	VirtioSerial:        true,
+	VirtioBlock:         true,
 	Console:             false,
 	VirtioSerialPort:    false,
-	VHostVSock:          false,
-	VirtioRng:           false,
-	VirtioBalloon:       false,
+	VHostVSock:          true,
+	VirtioRng:           true,
+	VirtioBalloon:       true,
 	VhostUserSCSI:       false,
 	VhostUserBlk:        false,
-	Vfio:                false,
-	VirtioScsi:          false,
+	Vfio:                true,
+	VirtioScsi:          true,
 	PCIBridgeDriver:     false,
 	PCIePCIBridgeDriver: false,
+}
+
+func isVirtioCCW(device DeviceDriver) bool {
+	return isVirtioCCWMap[device]
 }
 
 // QemuDeviceParam converts to the QEMU -device parameter notation

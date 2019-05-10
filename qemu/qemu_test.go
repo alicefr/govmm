@@ -27,6 +27,13 @@ import (
 const agentUUID = "4cb19522-1e18-439a-883a-f9b2a3a95f5e"
 const volumeUUID = "67d86208-b46c-4465-9018-e14187d4010"
 
+var(
+       deviceNetworkPCIString         = "-netdev tap,id=tap0,vhost=on,ifname=ceth0,downscript=no,script=no -device driver=virtio-net-pci,net
+dev=tap0,mac=01:02:de:ad:be:ef,bus=/pci-bus/pcie.0,addr=ff"
+        deviceNetworkPCIStringMq       = "-netdev tap,id=tap0,vhost=on,fds=3:4 -device driver=virtio-net-pci,netdev=tap0,mac=01:02:de:ad:be:
+ef,bus=/pci-bus/pcie.0,addr=ff,mq=on"
+)
+
 func testAppend(structure interface{}, expected string, t *testing.T) {
 	var config Config
 	testConfigAppend(&config, structure, expected, t)
@@ -181,6 +188,12 @@ func TestAppendDeviceNetworkMq(t *testing.T) {
 		ROMFile:       "efi-virtio.rom",
 	}
 
+<<<<<<< HEAD
+=======
+        if isVirtioCCW(netdev.Driver) {
+                netdev.DevNo = DevNo
+        }
+>>>>>>> 201afec... isVirtioCCW functional
 	testAppend(netdev, deviceNetworkStringMq, t)
 }
 
@@ -199,6 +212,10 @@ func TestAppendDeviceNetworkPCI(t *testing.T) {
 		MACAddress:    "01:02:de:ad:be:ef",
 		DisableModern: true,
 		ROMFile:       romfile,
+	}
+
+	if !isVirtioPCI[netdev.Driver] {
+		 t.Skip("Test valid only for PCI devices")
 	}
 
 	testAppend(netdev, deviceNetworkPCIString, t)
@@ -231,6 +248,10 @@ func TestAppendDeviceNetworkPCIMq(t *testing.T) {
 		ROMFile:       romfile,
 	}
 
+	if !isVirtioPCI[netdev.Driver] {
+		 t.Skip("Test valid only for PCI devices")
+	}
+
 	testAppend(netdev, deviceNetworkPCIStringMq, t)
 }
 
@@ -241,6 +262,16 @@ func TestAppendDeviceSerial(t *testing.T) {
 		DisableModern: true,
 		ROMFile:       romfile,
 	}
+<<<<<<< HEAD
+=======
+	if isVirtioCCW(sdev.Driver) {
+		sdev.DevNo = DevNo
+	}
+
+	if isVirtioCCW(sdev.Driver) {
+                sdev.DevNo = DevNo
+        }
+>>>>>>> 201afec... isVirtioCCW functional
 
 	testAppend(sdev, deviceSerialString, t)
 }
@@ -283,6 +314,13 @@ func TestAppendDeviceVFIO(t *testing.T) {
 		ROMFile: romfile,
 	}
 
+<<<<<<< HEAD
+=======
+	if isVirtioCCW(Vfio) {
+                vfioDevice.DevNo = DevNo
+        }
+
+>>>>>>> 201afec... isVirtioCCW functional
 	testAppend(vfioDevice, deviceVFIOString, t)
 }
 
@@ -295,6 +333,13 @@ func TestAppendVSOCK(t *testing.T) {
 		ROMFile:       romfile,
 	}
 
+<<<<<<< HEAD
+=======
+	if isVirtioCCW(VHostVSock) {
+                vsockDevice.DevNo = DevNo
+        }
+
+>>>>>>> 201afec... isVirtioCCW functional
 	testAppend(vsockDevice, deviceVSOCKString, t)
 }
 
@@ -334,6 +379,14 @@ func TestAppendVirtioRng(t *testing.T) {
 		ROMFile: romfile,
 	}
 
+<<<<<<< HEAD
+=======
+	if isVirtioCCW(VirtioRng) {
+                rngDevice.DevNo = DevNo
+		deviceString += ",devno="+rngDevice.DevNo
+        }
+
+>>>>>>> 201afec... isVirtioCCW functional
 	testAppend(rngDevice, objectString+" "+deviceString, t)
 
 	rngDevice.Filename = "/dev/urandom"
@@ -389,6 +442,13 @@ func TestAppendDeviceSCSIController(t *testing.T) {
 		ID:      "foo",
 		ROMFile: romfile,
 	}
+<<<<<<< HEAD
+=======
+        if isVirtioCCW(VirtioScsi) {
+                scsiCon.DevNo = DevNo
+        }
+
+>>>>>>> 201afec... isVirtioCCW functional
 	testAppend(scsiCon, deviceSCSIControllerStr, t)
 
 	scsiCon.Bus = "pci.0"

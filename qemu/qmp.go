@@ -821,9 +821,13 @@ func (q *QMP) ExecuteDeviceAdd(ctx context.Context, blockdevID, devID, driver, b
 		"driver": driver,
 		"drive":  blockdevID,
 	}
-	if bus != "" {
+
+	if isVirtioCCW(DeviceDriver(driver)) {
+		args["devno"] = bus
+        } else if bus != "" {
 		args["bus"] = bus
 	}
+
 	if shared && (q.version.Major > 2 || (q.version.Major == 2 && q.version.Minor >= 10)) {
 		args["share-rw"] = "on"
 	}
@@ -834,6 +838,7 @@ func (q *QMP) ExecuteDeviceAdd(ctx context.Context, blockdevID, devID, driver, b
 			args["disable-modern"] = disableModern
 		}
 	}
+
 
 	return q.executeCommand(ctx, "device_add", args, nil)
 }
@@ -869,8 +874,14 @@ func (q *QMP) ExecuteSCSIDeviceAdd(ctx context.Context, blockdevID, devID, drive
 		"id":     devID,
 		"driver": driver,
 		"drive":  blockdevID,
-		"bus":    bus,
 	}
+
+        if isVirtioCCW(DeviceDriver(driver)) {
+                args["devno"] = bus
+        } else {
+                args["bus"] = bus
+        }
+
 	if scsiID >= 0 {
 		args["scsi-id"] = scsiID
 	}
