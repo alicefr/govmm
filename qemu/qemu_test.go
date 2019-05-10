@@ -34,6 +34,8 @@ dev=tap0,mac=01:02:de:ad:be:ef,bus=/pci-bus/pcie.0,addr=ff"
 ef,bus=/pci-bus/pcie.0,addr=ff,mq=on"
 )
 
+const DevNo = "fe.1.1234"
+
 func testAppend(structure interface{}, expected string, t *testing.T) {
 	var config Config
 	testConfigAppend(&config, structure, expected, t)
@@ -143,6 +145,10 @@ func TestAppendDeviceFS(t *testing.T) {
 		ROMFile:       "efi-virtio.rom",
 	}
 
+        if isVirtioCCW(fsdev.Driver) {
+                fsdev.DevNo = DevNo
+        }
+
 	testAppend(fsdev, deviceFSString, t)
 }
 
@@ -159,6 +165,10 @@ func TestAppendDeviceNetwork(t *testing.T) {
 		DisableModern: true,
 		ROMFile:       "efi-virtio.rom",
 	}
+
+	if isVirtioCCW(netdev.Driver) {
+                netdev.DevNo = DevNo
+        }
 
 	testAppend(netdev, deviceNetworkString, t)
 }
@@ -187,6 +197,7 @@ func TestAppendDeviceNetworkMq(t *testing.T) {
 		DisableModern: true,
 		ROMFile:       "efi-virtio.rom",
 	}
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 =======
@@ -194,6 +205,11 @@ func TestAppendDeviceNetworkMq(t *testing.T) {
                 netdev.DevNo = DevNo
         }
 >>>>>>> 201afec... isVirtioCCW functional
+=======
+        if isVirtioCCW(netdev.Driver) {
+                netdev.DevNo = DevNo
+        }
+>>>>>>> e733714... test: add devno in the tests for s390x
 	testAppend(netdev, deviceNetworkStringMq, t)
 }
 
@@ -263,6 +279,7 @@ func TestAppendDeviceSerial(t *testing.T) {
 		ROMFile:       romfile,
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	if isVirtioCCW(sdev.Driver) {
 		sdev.DevNo = DevNo
@@ -273,6 +290,11 @@ func TestAppendDeviceSerial(t *testing.T) {
         }
 >>>>>>> 201afec... isVirtioCCW functional
 
+=======
+	if isVirtioCCW(sdev.Driver) {
+		sdev.DevNo = DevNo
+	}
+>>>>>>> e733714... test: add devno in the tests for s390x
 	testAppend(sdev, deviceSerialString, t)
 }
 
@@ -287,7 +309,9 @@ func TestAppendDeviceSerialPort(t *testing.T) {
 		Path:     "/tmp/char.sock",
 		Name:     "channel.0",
 	}
-
+        if isVirtioCCW(chardev.Driver) {
+                chardev.DevNo = DevNo
+        }
 	testAppend(chardev, deviceSerialPortString, t)
 }
 
@@ -304,7 +328,9 @@ func TestAppendDeviceBlock(t *testing.T) {
 		DisableModern: true,
 		ROMFile:       romfile,
 	}
-
+        if isVirtioCCW(blkdev.Driver) {
+                blkdev.DevNo = DevNo
+        }
 	testAppend(blkdev, deviceBlockString, t)
 }
 
@@ -315,12 +341,19 @@ func TestAppendDeviceVFIO(t *testing.T) {
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	if isVirtioCCW(Vfio) {
                 vfioDevice.DevNo = DevNo
         }
 
 >>>>>>> 201afec... isVirtioCCW functional
+=======
+	if isVirtioCCW(VFIODevice) {
+                vfioDevice.DevNo = DevNo
+        }
+
+>>>>>>> e733714... test: add devno in the tests for s390x
 	testAppend(vfioDevice, deviceVFIOString, t)
 }
 
@@ -334,12 +367,19 @@ func TestAppendVSOCK(t *testing.T) {
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	if isVirtioCCW(VHostVSock) {
                 vsockDevice.DevNo = DevNo
         }
 
 >>>>>>> 201afec... isVirtioCCW functional
+=======
+	if isVirtioCCW(VSOCKDevice) {
+                vsockDevice.DevNo = DevNo
+        }
+
+>>>>>>> e733714... test: add devno in the tests for s390x
 	testAppend(vsockDevice, deviceVSOCKString, t)
 }
 
@@ -380,6 +420,7 @@ func TestAppendVirtioRng(t *testing.T) {
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	if isVirtioCCW(VirtioRng) {
                 rngDevice.DevNo = DevNo
@@ -387,6 +428,12 @@ func TestAppendVirtioRng(t *testing.T) {
         }
 
 >>>>>>> 201afec... isVirtioCCW functional
+=======
+	if isVirtioCCW(RngDevice) {
+                rngDevice.DevNo = DevNo
+        }
+
+>>>>>>> e733714... test: add devno in the tests for s390x
 	testAppend(rngDevice, objectString+" "+deviceString, t)
 
 	rngDevice.Filename = "/dev/urandom"
@@ -427,6 +474,10 @@ func TestVirtioBalloonValid(t *testing.T) {
 		ID: "",
 	}
 
+	if isVirtioCCW(BalloonDevice) {
+                balloon.DevNo = DevNo
+        }
+
 	if balloon.Valid() {
 		t.Fatalf("balloon should be not valid when ID is empty")
 	}
@@ -443,12 +494,19 @@ func TestAppendDeviceSCSIController(t *testing.T) {
 		ROMFile: romfile,
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         if isVirtioCCW(VirtioScsi) {
                 scsiCon.DevNo = DevNo
         }
 
 >>>>>>> 201afec... isVirtioCCW functional
+=======
+        if isVirtioCCW(SCSIController) {
+                scsiCon.DevNo = DevNo
+        }
+
+>>>>>>> e733714... test: add devno in the tests for s390x
 	testAppend(scsiCon, deviceSCSIControllerStr, t)
 
 	scsiCon.Bus = "pci.0"
