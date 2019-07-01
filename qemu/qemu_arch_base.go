@@ -61,6 +61,11 @@ var isVirtioPCI = map[DeviceDriver]bool{
 	PCIePCIBridgeDriver: true,
 }
 
+// isVirtioCCW is a dummy function to return always false on no-s390x arch
+func isVirtioCCW(device DeviceDriver) bool {
+	return false
+}
+
 // QemuNetdevParam converts to the QEMU -netdev parameter notation
 func (n NetDeviceType) QemuNetdevParam() string {
 	switch n {
